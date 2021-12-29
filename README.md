@@ -20,7 +20,7 @@ Some of the works are modified in this code. Therefore, directly clone from the 
 ## Qucik Start
 ### Installation
 [**Python**](https://www.python.org/) is required with all
-[requirements.txt](https://github.com/RabbitCrab/MultiLingual-OCR/main/requirements.txt) installed including
+[requirements.txt](https://github.com/RabbitCrab/MultiLingual-OCR/main/requirements.txt) installed including:
 
 ```
 $ git clone https://github.com/RabbitCrab/MultiLingual-OCR.git
@@ -28,7 +28,7 @@ $ pip install -r requirements.txt
 ```
 
 ### Inference
-Please download the weight 
+Please download the weight: 
 |Weight|Size|Reference|
 |------|----|---------|
 |[best.pt](https://drive.google.com/file/d/1itEkrhMZl-BpsShADcUnfKPo_UjVxvty/view?usp=sharing)|1.05 GB|YOLOv5|
