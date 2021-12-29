@@ -36,7 +36,34 @@ Please download the weight
 |[final_eff.pt](https://drive.google.com/file/d/1n8zuGWBGNYVW910y-qYr4yEfHjOO7fTN/view?usp=sharing)|294.1 MB|EfficientNet|
 |[paddle.zip](https://drive.google.com/file/d/1GQOiu_7izVQ4413uzMHvv5fwT2ja1Ewf/view?usp=sharing)|89.9 MB|PaddleOCR|
 |[pren.pth](https://drive.google.com/file/d/1ts2eDD52ZxY930_kCUpToQw0Qsv-OTtn/view?usp=sharing)|334.1 MB|PREN|
+
 <br>
-Place the EfficientNet model under the [efficientNet_training](https://github.com/RabbitCrab/MultiLingual-OCR/tree/main/efficientNet_training)
+
+Place the models according to the following structure. <br>
 
 ```
+Project
+|---README.md
+|---requirements.txt
+|---efficientNet_training
+|   |---final_eff.pt
+|---PaddleOCR
+|   |---paddle.zip
+|---pren
+|   |---models
+|   |   |---pren.pth
+|---yolov5
+|   |---best.pt
+```
+
+Unzip the `paddle.zip` file under PaddleOCR folder. <br>
+
+<div style="text-align: justify">
+
+<br> `final_test.py` runs inference on a `path/` (directory) and output the result in `*.csv`. <br>
+The `final_test.py` is designed to run for the competition [繁體中文場景文字辨識競賽－高階賽：複雜街景之文字定位與辨識](https://tbrain.trendmicro.com.tw/Competitions/Details/19). <br>
+Line 287: you probably need to change the output file name. <br>
+The public dataset from the competition provided can be download from [HERE](https://drive.google.com/file/d/1E09fzyjJLAtciDi7fInn-CsJyhVevhUw/view?usp=sharing). <br><br>
+Run the following command:
+
+</div>
