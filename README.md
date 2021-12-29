@@ -83,7 +83,7 @@ cd yolov5
 Run the following commandd:
 
  ```
- python final_test.py --img 1536 --weight best.pt --augment --source ../../private/ --rec_model_dir="../PaddleOCR/inference/" --rec_char_dict_path ../PaddleOCR/ppocr/utils/new_small_dict_ch_en_num.txt
+ python final_test.py --img 1536 --weight best.pt --augment --source ../private/ --rec_model_dir="../PaddleOCR/inference/" --rec_char_dict_path ../PaddleOCR/ppocr/utils/new_small_dict_ch_en_num.txt
  ```
 
 </div>
