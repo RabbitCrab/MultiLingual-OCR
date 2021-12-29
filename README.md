@@ -210,7 +210,7 @@ python train_efficientnet.py
 Train with the following command:
 
 ```
-cd paddleOCR/tools
+cd PaddleOCR
 python tools/train.py -c configs/rec/rec_chinese_common_train_v2.0_paddle.yml
 ```
 
