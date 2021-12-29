@@ -232,4 +232,4 @@ python tools/export_model.py -c ./configs/rec/rec_chinese_common_train_v2.0_padd
 ## Contributors:
 :crab: [rabbitcrab](https://github.com/RabbitCrab) <br>
 :lion: [cocoowl](https://github.com/cocoowl) <br>
-:apple: [Silvia-HYLin](https://github.com/Silvia-HYLin)
+:apple: [Silvia-HYLin](https://github.com/Silvia-HYLin) :apple:
