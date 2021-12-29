@@ -183,7 +183,7 @@ Project
 Train with the following command:
 
 ```
-cd resnet_training
+cd efficientNet_training
 python train_efficientnet.py
 ```
 
@@ -230,5 +230,6 @@ python tools/export_model.py -c ./configs/rec/rec_chinese_common_train_v2.0_padd
 7. [Google Landmarks Dataset V2](https://github.com/cvdfoundation/google-landmark)
 
 ## Contributors:
+:crab: [rabbitcrab](https://github.com/RabbitCrab) <br>
 :lion: [cocoowl](https://github.com/cocoowl) <br>
 :apple: [Silvia-HYLin](https://github.com/Silvia-HYLin)
