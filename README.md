@@ -98,7 +98,7 @@ The following datasets used for the training. <br>
 |[contest]()|YOLOv5|
 |[eff_img_label.zip](https://drive.google.com/file/d/1j1FfRjADFRfsdlqZ5Lz_PJK6daeExpQf/view?usp=sharing)|EfficientNet|
 |[eff_img.zip](https://drive.google.com/file/d/17pm5ygJKLXt3jXkSlhvYZbzuCQVdS7T0/view?usp=sharing)|EfficientNet|
-|[crop.zip}(https://drive.google.com/file/d/1aEteeYScr7zV2UCsOHA9i7-scLOgrv1N/view?usp=sharing)|PaddleOCR|
+|[crop.zip](https://drive.google.com/file/d/1aEteeYScr7zV2UCsOHA9i7-scLOgrv1N/view?usp=sharing)|PaddleOCR|
 |[new_tiger_images.zip](https://drive.google.com/file/d/1L9PAxISsTc9AaBRvCiGKOs9ntdT_deJs/view?usp=sharing)|PaddleOCR|
 
 Place the datasets according to the following structure and unzip them. <br>
@@ -108,7 +108,8 @@ Project
 |---README.md
 |---crop.zip
 |---contest.zip
-|---new_tiger_images.zip
+|---synthtiger
+|   |---new_tiger_images.zip
 |---requirements.txt
 |---efficientNet_training
 |   |---final_eff.pt
