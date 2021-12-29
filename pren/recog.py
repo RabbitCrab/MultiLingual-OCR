@@ -15,6 +15,7 @@ transform = transforms.Compose([
     ])
 
 
+'''
 def imread(imgpath):
     img = cv2.imread(imgpath)
     h, w, _ = img.shape
@@ -37,7 +38,30 @@ def imread(imgpath):
         x_clock, x_counter = 0, 0
 
     return x, x_clock, x_counter, is_vert
+'''
 
+
+def imread(img):
+    h, w, _ = img.shape
+
+    x = transform(img)
+    x.sub_(0.5).div_(0.5)
+    x = x.unsqueeze(0)
+
+    is_vert = True if h > w else False
+    if is_vert:
+        img_clock = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
+        img_counter = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+        x_clock = transform(img_clock)
+        x_counter = transform(img_counter)
+        x_clock.sub_(0.5).div_(0.5)
+        x_counter.sub_(0.5).div_(0.5)
+        x_clock = x_clock.unsqueeze(0)
+        x_counter = x_counter.unsqueeze(0)
+    else:
+        x_clock, x_counter = 0, 0
+
+    return x, x_clock, x_counter, is_vert
 
 class Recognizer(object):
 

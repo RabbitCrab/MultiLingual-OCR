@@ -16,7 +16,7 @@ __all__ = ["build_backbone"]
 
 
 def build_backbone(config, model_type):
-    if model_type == "det" or model_type == "table":
+    if model_type == "det":
         from .det_mobilenet_v3 import MobileNetV3
         from .det_resnet_vd import ResNet
         from .det_resnet_vd_sast import ResNet_SAST
@@ -27,18 +27,12 @@ def build_backbone(config, model_type):
         from .rec_resnet_fpn import ResNetFPN
         from .rec_mv1_enhance import MobileNetV1Enhance
         from .rec_nrtr_mtb import MTB
-        from .rec_resnet_31 import ResNet31
-        from .rec_resnet_aster import ResNet_ASTER
         support_dict = [
-            'MobileNetV1Enhance', 'MobileNetV3', 'ResNet', 'ResNetFPN', 'MTB',
-            "ResNet31", "ResNet_ASTER"
+            'MobileNetV1Enhance', 'MobileNetV3', 'ResNet', 'ResNetFPN', 'MTB'
         ]
     elif model_type == "e2e":
         from .e2e_resnet_vd_pg import ResNet
-        support_dict = ['ResNet']
-    elif model_type == 'kie':
-        from .kie_unet_sdmgr import Kie_backbone
-        support_dict = ['Kie_backbone']
+        support_dict = ["ResNet"]
     elif model_type == "table":
         from .table_resnet_vd import ResNet
         from .table_mobilenet_v3 import MobileNetV3

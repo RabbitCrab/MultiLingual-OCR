@@ -25,7 +25,7 @@ import paddle
 
 from ppocr.utils.logging import get_logger
 
-__all__ = ['load_model']
+__all__ = ['init_model', 'save_model', 'load_dygraph_params']
 
 
 def _mkdir_if_not_exist(path, logger):
@@ -44,7 +44,7 @@ def _mkdir_if_not_exist(path, logger):
                 raise OSError('Failed to mkdir {}'.format(path))
 
 
-def load_model(config, model, optimizer=None):
+def init_model(config, model, optimizer=None, lr_scheduler=None):
     """
     load model from checkpoint or pretrained_model
     """
@@ -54,37 +54,15 @@ def load_model(config, model, optimizer=None):
     pretrained_model = global_config.get('pretrained_model')
     best_model_dict = {}
     if checkpoints:
-        if checkpoints.endswith('.pdparams'):
-            checkpoints = checkpoints.replace('.pdparams', '')
         assert os.path.exists(checkpoints + ".pdparams"), \
-            "The {}.pdparams does not exists!".format(checkpoints)
-
-        # load params from trained model
-        params = paddle.load(checkpoints + '.pdparams')
-        state_dict = model.state_dict()
-        new_state_dict = {}
-        for key, value in state_dict.items():
-            if key not in params:
-                logger.warning("{} not in loaded params {} !".format(
-                    key, params.keys()))
-                continue
-            pre_value = params[key]
-            if list(value.shape) == list(pre_value.shape):
-                new_state_dict[key] = pre_value
-            else:
-                logger.warning(
-                    "The shape of model params {} {} not matched with loaded params shape {} !".
-                    format(key, value.shape, pre_value.shape))
-        model.set_state_dict(new_state_dict)
-
+            "Given dir {}.pdparams not exist.".format(checkpoints)
+        assert os.path.exists(checkpoints + ".pdopt"), \
+            "Given dir {}.pdopt not exist.".format(checkpoints)
+        para_dict = paddle.load(checkpoints + '.pdparams')
+        opti_dict = paddle.load(checkpoints + '.pdopt')
+        model.set_state_dict(para_dict)
         if optimizer is not None:
-            if os.path.exists(checkpoints + '.pdopt'):
-                optim_dict = paddle.load(checkpoints + '.pdopt')
-                optimizer.set_state_dict(optim_dict)
-            else:
-                logger.warning(
-                    "{}.pdopt is not exists, params of optimizer is not loaded".
-                    format(checkpoints))
+            optimizer.set_state_dict(opti_dict)
 
         if os.path.exists(checkpoints + '.states'):
             with open(checkpoints + '.states', 'rb') as f:
@@ -95,31 +73,70 @@ def load_model(config, model, optimizer=None):
                 best_model_dict['start_epoch'] = states_dict['epoch'] + 1
         logger.info("resume from {}".format(checkpoints))
     elif pretrained_model:
-        load_pretrained_params(model, pretrained_model)
+        if not isinstance(pretrained_model, list):
+            pretrained_model = [pretrained_model]
+        for pretrained in pretrained_model:
+            if not (os.path.isdir(pretrained) or
+                    os.path.exists(pretrained + '.pdparams')):
+                raise ValueError("Model pretrain path {} does not "
+                                 "exists.".format(pretrained))
+            param_state_dict = paddle.load(pretrained + '.pdparams')
+            model.set_state_dict(param_state_dict)
+            logger.info("load pretrained model from {}".format(
+                pretrained_model))
     else:
         logger.info('train from scratch')
     return best_model_dict
 
 
-def load_pretrained_params(model, path):
-    logger = get_logger()
-    if path.endswith('.pdparams'):
-        path = path.replace('.pdparams', '')
-    assert os.path.exists(path + ".pdparams"), \
-        "The {}.pdparams does not exists!".format(path)
+def load_dygraph_params(config, model, logger, optimizer):
+    ckp = config['Global']['checkpoints']
+    if ckp and os.path.exists(ckp + ".pdparams"):
+        pre_best_model_dict = init_model(config, model, optimizer)
+        return pre_best_model_dict
+    else:
+        pm = config['Global']['pretrained_model']
+        if pm is None:
+            return {}
+        if not os.path.exists(pm) and not os.path.exists(pm + ".pdparams"):
+            logger.info(f"The pretrained_model {pm} does not exists!")
+            return {}
+        pm = pm if pm.endswith('.pdparams') else pm + '.pdparams'
+        params = paddle.load(pm)
+        state_dict = model.state_dict()
+        new_state_dict = {}
+        for k1, k2 in zip(state_dict.keys(), params.keys()):
+            if list(state_dict[k1].shape) == list(params[k2].shape):
+                new_state_dict[k1] = params[k2]
+            else:
+                logger.info(
+                    f"The shape of model params {k1} {state_dict[k1].shape} not matched with loaded params {k2} {params[k2].shape} !"
+                )
+        model.set_state_dict(new_state_dict)
+        logger.info(f"loaded pretrained_model successful from {pm}")
+        return {}
 
-    params = paddle.load(path + '.pdparams')
+
+def load_pretrained_params(model, path):
+    if path is None:
+        return False
+    if not os.path.exists(path) and not os.path.exists(path + ".pdparams"):
+        print(f"The pretrained_model {path} does not exists!")
+        return False
+
+    path = path if path.endswith('.pdparams') else path + '.pdparams'
+    params = paddle.load(path)
     state_dict = model.state_dict()
     new_state_dict = {}
     for k1, k2 in zip(state_dict.keys(), params.keys()):
         if list(state_dict[k1].shape) == list(params[k2].shape):
             new_state_dict[k1] = params[k2]
         else:
-            logger.warning(
-                "The shape of model params {} {} not matched with loaded params {} {} !".
-                format(k1, state_dict[k1].shape, k2, params[k2].shape))
+            print(
+                f"The shape of model params {k1} {state_dict[k1].shape} not matched with loaded params {k2} {params[k2].shape} !"
+            )
     model.set_state_dict(new_state_dict)
-    logger.info("load pretrain successful from {}".format(path))
+    print(f"load pretrain successful from {path}")
     return model
 
 

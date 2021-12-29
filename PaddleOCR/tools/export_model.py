@@ -26,7 +26,7 @@ from paddle.jit import to_static
 
 from ppocr.modeling.architectures import build_model
 from ppocr.postprocess import build_post_process
-from ppocr.utils.save_load import load_model
+from ppocr.utils.save_load import load_dygraph_params
 from ppocr.utils.logging import get_logger
 from tools.program import load_config, merge_config, ArgsParser
 
@@ -47,12 +47,6 @@ def export_single_model(model, arch_config, save_path, logger):
                             shape=[None, 8, max_text_length, max_text_length],
                             dtype="int64")
                 ]
-        ]
-        model = to_static(model, input_spec=other_shape)
-    elif arch_config["algorithm"] == "SAR":
-        other_shape = [
-            paddle.static.InputSpec(
-                shape=[None, 3, 48, 160], dtype="float32"),
         ]
         model = to_static(model, input_spec=other_shape)
     else:
@@ -107,7 +101,7 @@ def main():
         else:  # base rec model
             config["Architecture"]["Head"]["out_channels"] = char_num
     model = build_model(config["Architecture"])
-    load_model(config, model)
+    _ = load_dygraph_params(config, model, logger, None)
     model.eval()
 
     save_path = config["Global"]["save_inference_dir"]

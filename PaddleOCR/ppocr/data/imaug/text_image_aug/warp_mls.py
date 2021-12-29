@@ -15,7 +15,6 @@
 This code is refer from:
 https://github.com/RubanSeven/Text-Image-Augmentation-python/blob/master/warp_mls.py
 """
-
 import numpy as np
 
 

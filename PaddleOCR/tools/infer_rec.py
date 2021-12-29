@@ -33,7 +33,7 @@ import paddle
 from ppocr.data import create_operators, transform
 from ppocr.modeling.architectures import build_model
 from ppocr.postprocess import build_post_process
-from ppocr.utils.save_load import load_model
+from ppocr.utils.save_load import init_model
 from ppocr.utils.utility import get_image_file_list
 import tools.program as program
 
@@ -58,7 +58,7 @@ def main():
 
     model = build_model(config['Architecture'])
 
-    load_model(config, model)
+    init_model(config, model)
 
     # create data ops
     transforms = []
@@ -74,8 +74,6 @@ def main():
                     'image', 'encoder_word_pos', 'gsrm_word_pos',
                     'gsrm_slf_attn_bias1', 'gsrm_slf_attn_bias2'
                 ]
-            elif config['Architecture']['algorithm'] == "SAR":
-                op[op_name]['keep_keys'] = ['image', 'valid_ratio']
             else:
                 op[op_name]['keep_keys'] = ['image']
         transforms.append(op)
@@ -108,16 +106,11 @@ def main():
                     paddle.to_tensor(gsrm_slf_attn_bias1_list),
                     paddle.to_tensor(gsrm_slf_attn_bias2_list)
                 ]
-            if config['Architecture']['algorithm'] == "SAR":
-                valid_ratio = np.expand_dims(batch[-1], axis=0)
-                img_metas = [paddle.to_tensor(valid_ratio)]
 
             images = np.expand_dims(batch[0], axis=0)
             images = paddle.to_tensor(images)
             if config['Architecture']['algorithm'] == "SRN":
                 preds = model(images, others)
-            elif config['Architecture']['algorithm'] == "SAR":
-                preds = model(images, img_metas)
             else:
                 preds = model(images)
             post_result = post_process_class(preds)

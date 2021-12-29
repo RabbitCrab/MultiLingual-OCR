@@ -5,7 +5,7 @@ Global:
   print_batch_step: 2
   save_model_dir: ./output/ch_db_mv3/
   save_epoch_step: 1200
-  # evaluation is run every 5000 iterations after the 4000th iteration
+  # evaluation is run every 2000 iterations after the 3000th iteration
   eval_batch_step: [3000, 2000]
   cal_metric_during_train: False
   pretrained_model: ./pretrain_models/MobileNetV3_large_x0_5_pretrained
@@ -18,7 +18,6 @@ Global:
 Architecture:
   name: DistillationModel
   algorithm: Distillation
-  model_type: det
   Models:
     Student:
       pretrained: ./pretrain_models/MobileNetV3_large_x0_5_pretrained
@@ -69,7 +68,8 @@ Loss:
       ohem_ratio: 3
   - DistillationDBLoss:
       weight: 1.0
-      model_name_list: ["Student"]
+      model_name_list: ["Student", "Teacher"]
+      # key: maps
       name: DBLoss
       balance_loss: true
       main_loss_type: DiceLoss
@@ -116,7 +116,6 @@ Train:
           img_mode: BGR
           channel_first: False
       - DetLabelEncode: # Class handling label
-      - CopyPaste:
       - IaaAugment:
           augmenter_args:
             - { 'type': Fliplr, 'args': { 'p': 0.5 } }

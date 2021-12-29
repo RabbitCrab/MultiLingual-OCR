@@ -27,7 +27,7 @@ from ppocr.data import build_dataloader
 from ppocr.modeling.architectures import build_model
 from ppocr.postprocess import build_post_process
 from ppocr.metrics import build_metric
-from ppocr.utils.save_load import load_model
+from ppocr.utils.save_load import init_model, load_dygraph_params
 from ppocr.utils.utility import print_dict
 import tools.program as program
 
@@ -54,14 +54,13 @@ def main():
             config['Architecture']["Head"]['out_channels'] = char_num
 
     model = build_model(config['Architecture'])
-    extra_input = config['Architecture'][
-        'algorithm'] in ["SRN", "NRTR", "SAR", "SEED"]
+    use_srn = config['Architecture']['algorithm'] == "SRN"
     if "model_type" in config['Architecture'].keys():
         model_type = config['Architecture']['model_type']
     else:
         model_type = None
 
-    best_model_dict = load_model(config, model)
+    best_model_dict = load_dygraph_params(config, model, logger, None)
     if len(best_model_dict):
         logger.info('metric in ckpt ***************')
         for k, v in best_model_dict.items():
@@ -69,9 +68,10 @@ def main():
 
     # build metric
     eval_class = build_metric(config['Metric'])
+
     # start eval
     metric = program.eval(model, valid_dataloader, post_process_class,
-                          eval_class, model_type, extra_input)
+                          eval_class, model_type, use_srn)
     logger.info('metric eval ***************')
     for k, v in metric.items():
         logger.info('{}:{}'.format(k, v))

@@ -5,7 +5,7 @@ Global:
   print_batch_step: 2
   save_model_dir: ./output/ch_db_mv3/
   save_epoch_step: 1200
-  # evaluation is run every 5000 iterations after the 4000th iteration
+  # evaluation is run every 2000 iterations after the 3000th iteration
   eval_batch_step: [3000, 2000]
   cal_metric_during_train: False
   pretrained_model: ./pretrain_models/ch_PP-OCRv2_det_distill_train/best_accuracy
@@ -18,10 +18,8 @@ Global:
 Architecture:
   name: DistillationModel
   algorithm: Distillation
-  model_type: det
   Models:
     Teacher:
-      pretrained: ./pretrain_models/ch_ppocr_server_v2.0_det_train/best_accuracy
       freeze_params: true
       return_all_feats: false
       model_type: det
@@ -37,7 +35,6 @@ Architecture:
         name: DBHead
         k: 50
     Student:
-      pretrained:
       freeze_params: false
       return_all_feats: false
       model_type: det
@@ -54,7 +51,6 @@ Architecture:
         name: DBHead
         k: 50
     Student2:
-      pretrained:
       freeze_params: false
       return_all_feats: false
       model_type: det

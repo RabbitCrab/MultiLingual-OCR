@@ -14,7 +14,6 @@
 import numpy as np
 import os
 import random
-import traceback
 from paddle.io import Dataset
 from .imaug import transform, create_operators
 
@@ -94,8 +93,7 @@ class SimpleDataSet(Dataset):
                 img = f.read()
                 data['image'] = img
             data = transform(data, load_data_ops)
-
-            if data is None or data['polys'].shape[1]!=4:
+            if data is None:
                 continue
             ext_data.append(data)
         return ext_data
@@ -117,10 +115,10 @@ class SimpleDataSet(Dataset):
                 data['image'] = img
             data['ext_data'] = self.get_ext_data()
             outs = transform(data, self.ops)
-        except:
+        except Exception as e:
             self.logger.error(
                 "When parsing line {}, error happened with msg: {}".format(
-                    data_line, traceback.format_exc()))
+                    data_line, e))
             outs = None
         if outs is None:
             # during evaluation, we should fix the idx to get same results for many times of evaluation.

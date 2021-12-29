@@ -34,7 +34,7 @@ import paddle
 from ppocr.data import create_operators, transform
 from ppocr.modeling.architectures import build_model
 from ppocr.postprocess import build_post_process
-from ppocr.utils.save_load import load_model
+from ppocr.utils.save_load import init_model, load_dygraph_params
 from ppocr.utils.utility import get_image_file_list
 import tools.program as program
 
@@ -53,14 +53,13 @@ def draw_det_res(dt_boxes, config, img, img_name, save_path):
         logger.info("The detected Image saved in {}".format(save_path))
 
 
-@paddle.no_grad()
 def main():
     global_config = config['Global']
 
     # build model
     model = build_model(config['Architecture'])
 
-    load_model(config, model)
+    _ = load_dygraph_params(config, model, logger, None)
     # build post process
     post_process_class = build_post_process(config['PostProcess'])
 
@@ -126,6 +125,9 @@ def main():
             otstr = file + "\t" + json.dumps(dt_boxes_json) + "\n"
             fout.write(otstr.encode())
 
+            save_det_path = os.path.dirname(config['Global'][
+                'save_res_path']) + "/det_results/"
+            draw_det_res(boxes, config, src_img, file, save_det_path)
     logger.info("success!")
 
 

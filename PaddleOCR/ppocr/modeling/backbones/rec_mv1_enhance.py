@@ -1,4 +1,4 @@
-# copyright (c) 2021 PaddlePaddle Authors. All Rights Reserve.
+# copyright (c) 2020 PaddlePaddle Authors. All Rights Reserve.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,17 +18,26 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import math
 import numpy as np
 import paddle
-from paddle import ParamAttr, reshape, transpose
+from paddle import ParamAttr
 import paddle.nn as nn
 import paddle.nn.functional as F
 from paddle.nn import Conv2D, BatchNorm, Linear, Dropout
 from paddle.nn import AdaptiveAvgPool2D, MaxPool2D, AvgPool2D
 from paddle.nn.initializer import KaimingNormal
-from paddle.regularizer import L2Decay
+import math
+import numpy as np
+import paddle
+from paddle import ParamAttr, reshape, transpose, concat, split
+import paddle.nn as nn
+import paddle.nn.functional as F
+from paddle.nn import Conv2D, BatchNorm, Linear, Dropout
+from paddle.nn import AdaptiveAvgPool2D, MaxPool2D, AvgPool2D
+from paddle.nn.initializer import KaimingNormal
+import math
 from paddle.nn.functional import hardswish, hardsigmoid
+from paddle.regularizer import L2Decay
 
 
 class ConvBNLayer(nn.Layer):
