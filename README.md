@@ -2,7 +2,7 @@
 
 <div style="text-align: justify">
 
-This code is used for the competition [繁體中文場景文字辨識競賽－高階賽：複雜街景之文字定位與辨識](https://tbrain.trendmicro.com.tw/Competitions/Details/19). The competition is about scene text detection and recognition in Taiwan (Traditional Chinese). This code assembled [YOLOv5](https://github.com/ultralytics/yolov5), [EfficientNet-PyTorch](https://github.com/lukemelas/EfficientNet-PyTorch), [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR.git) and [PREN](https://github.com/RuijieJ/pren.git) in one. YOLOv5 for text detection and EfficientNet-PyTorch, PaddleOCR and PREN for recognition. The dataset for text detection included [Google Landmarks Dataset V2](https://github.com/cvdfoundation/google-landmark) as background images; for EfficientNet included [Single_char_image_generator](https://github.com/rachellin0105/Single_char_image_generator) as character generator. Both the dataset also included the data given by the organiser. The dataset for PaddleOCR training included [SynthTiger](https://github.com/clovaai/synthtiger.git) as text image generator.
+This code is used for the competition [繁體中文場景文字辨識競賽－高階賽：複雜街景之文字定位與辨識](https://tbrain.trendmicro.com.tw/Competitions/Details/19). The competition is about scene text detection and recognition in Taiwan (Traditional Chinese). This code assembled [YOLOv5](https://github.com/ultralytics/yolov5), [EfficientNet-PyTorch](https://github.com/lukemelas/EfficientNet-PyTorch), [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) and [PREN](https://github.com/RuijieJ/pren) in one. YOLOv5 for text detection and EfficientNet-PyTorch, PaddleOCR and PREN for recognition. The dataset for text detection included [Google Landmarks Dataset V2](https://github.com/cvdfoundation/google-landmark) as background images; for EfficientNet included [Single_char_image_generator](https://github.com/rachellin0105/Single_char_image_generator) as character generator. Both the dataset also included the data given by the organiser. The dataset for PaddleOCR training included [SynthTiger](https://github.com/clovaai/synthtiger) as text image generator.
 
 </div>
 
@@ -188,3 +188,47 @@ python train_efficientnet.py
 ```
 
 ### PaddleOCR
+
+```
+|---crop
+|   |---train
+|   |   |---img_1_000.jpg
+|---PaddleOCR
+|   |---tools
+|   |   |---train.py
+|   |   |---export_model.py
+|---synthtiger
+|   |---new_tiger_images
+|   |   |---train
+|   |   |   |---000000.jpg
+|   |   |---total_train_gt.txt
+|   |   |---val
+|   |   |   |---080000.jpg
+|   |   |---total_val_gt.txt
+```
+
+Train with the following command:
+
+```
+cd paddleOCR/tools
+python tools/train.py -c configs/rec/rec_chinese_common_train_v2.0_paddle.yml
+```
+
+Export the model when the trainning is done with the following command:
+
+```
+python tools/export_model.py -c ./configs/rec/rec_chinese_common_train_v2.0_paddle.yml -o Global.pretrained_model=./output/rec_chinese_common_v2.0_paddle/best_accuracy  Global.save_inference_dir=./inference/
+```
+
+## Reference
+1. [YOLOv5](https://github.com/ultralytics/yolov5)
+2. [EfficientNet-PyTorch](https://github.com/lukemelas/EfficientNet-PyTorch)
+3. [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+4. [PREN](https://github.com/RuijieJ/pren)
+5. [SynthTiger](https://github.com/clovaai/synthtiger)
+6. [Single_char_image_generator](https://github.com/rachellin0105/Single_char_image_generator)
+7. [Google Landmarks Dataset V2](https://github.com/cvdfoundation/google-landmark)
+
+## Contributors:
+:lion: [cocoowl](https://github.com/cocoowl) <br>
+:apple: [Silvia-HYLin](https://github.com/Silvia-HYLin)
