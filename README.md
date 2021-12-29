@@ -24,7 +24,6 @@ Some of the works are modified in this code. Therefore, directly clone from the 
 
 ```
 $ git clone https://github.com/RabbitCrab/MultiLingual-OCR.git
-$ cd Chinese-Character-Traditional-Scene-Text
 $ pip install -r requirements.txt
 ```
 
@@ -81,5 +80,46 @@ cd yolov5
 
 ---
 
+Run the following commandd:
+
+ ```
+ python final_test.py --img 1536 --weight best.pt --augment --source ../../private/ --rec_model_dir="../PaddleOCR/inference/" --rec_char_dict_path ../PaddleOCR/ppocr/utils/new_small_dict_ch_en_num.txt
+ ```
 
 </div>
+
+When finished, the result will be saved and output as `final_output.csv`.
+
+## Dataset
+The following datasets used for the training. <br>
+
+|Dataset|Train On|
+|-------|--------|
+|[contest]()|YOLOv5|
+|[eff_img_label.zip](https://drive.google.com/file/d/1j1FfRjADFRfsdlqZ5Lz_PJK6daeExpQf/view?usp=sharing)|EfficientNet|
+|[eff_img.zip](https://drive.google.com/file/d/17pm5ygJKLXt3jXkSlhvYZbzuCQVdS7T0/view?usp=sharing)|EfficientNet|
+|[crop.zip}(https://drive.google.com/file/d/1aEteeYScr7zV2UCsOHA9i7-scLOgrv1N/view?usp=sharing)|PaddleOCR|
+|[new_tiger_images.zip](https://drive.google.com/file/d/1L9PAxISsTc9AaBRvCiGKOs9ntdT_deJs/view?usp=sharing)|PaddleOCR|
+
+Place the datasets according to the following structure and unzip them. <br>
+
+```
+Project
+|---README.md
+|---crop.zip
+|---contest.zip
+|---new_tiger_images.zip
+|---requirements.txt
+|---efficientNet_training
+|   |---final_eff.pt
+|   |---eff_img_label.zip
+|   |---eff_img.zip
+|---PaddleOCR
+|   |---paddle.zip
+|---pren
+|   |---models
+|   |   |---pren.pth
+|---yolov5
+|   |---best.pt
+```
+
