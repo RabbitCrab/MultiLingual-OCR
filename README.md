@@ -124,3 +124,67 @@ Project
 |   |---best.pt
 ```
 
+## Training
+### YOLOv5
+Place the dataset for YOLOv5 as following:
+
+```
+|---contest
+|   |---annotations
+|   |   |---train.txt
+|   |   |---val.txt
+|   |   |---text.yaml
+|   |---images
+|   |   |---train
+|   |   |   |---img_1.jpg
+|   |   |---val
+|   |   |   |---img_12151.jpg
+|   |---labels
+|   |   |---train
+|   |   |   |---img_1.txt
+|   |   |---val
+|   |   |   |---img_12151.txt
+|---Project
+|   |---yolov5
+|   |   |---yolov5x6.pt
+
+```
+Download YOLOv5 model from the [latest YOLOv5 release](https://github.com/ultralytics/yolov5/releases). <br>
+Train with the following command:
+
+```
+# Single GPU
+python train.py --img 1536 --weight yolov5x6.pt --data ../datasets/contest/annotations/text.yaml --batch-size 16 # Use the largest batch size as GPU allows
+```
+
+#### Custom Dataset
+
+<div style="text-align: justify">
+
+Please follow the [documentation](https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data) and run the above command. <br>
+**Again, take note that the latest YOLOv5 is not compatible with this code.** <br>
+Note: This code used Google Landmarks Dataset v2 as background images. If you change to your own background images, please use image that without any character or word or number to avoid contradictions.
+
+</div>  
+
+### EfficientNet
+
+```
+Project
+|---efficientNet_training
+|   |---train_efficientnet.py
+|   |---final_eff.pt
+|   |---eff_img
+|   |   |---img_1.jpg
+|   |---eff_img_label
+|   |   |---img_1.txt
+```
+
+Train with the following command:
+
+```
+cd resnet_training
+python train_efficientnet.py
+```
+
+### PaddleOCR
