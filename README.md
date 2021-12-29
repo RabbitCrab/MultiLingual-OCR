@@ -32,7 +32,10 @@ $ pip install -r requirements.txt
 Please download the weight 
 |Weight|Size|Reference|
 |------|----|---------|
-|[best.pt](https://drive.google.com/file/d/1itEkrhMZl-BpsShADcUnfKPo_UjVxvty/view?usp=sharing)|1.05 GB|YOLOv5
+|[best.pt](https://drive.google.com/file/d/1itEkrhMZl-BpsShADcUnfKPo_UjVxvty/view?usp=sharing)|1.05 GB|YOLOv5|
+|[final_eff.pt](https://drive.google.com/file/d/1n8zuGWBGNYVW910y-qYr4yEfHjOO7fTN/view?usp=sharing)|294.1 MB|EfficientNet|
+|[paddle.zip](https://drive.google.com/file/d/1GQOiu_7izVQ4413uzMHvv5fwT2ja1Ewf/view?usp=sharing)|89.9 MB|PaddleOCR|
+|[pren.pth](https://drive.google.com/file/d/1ts2eDD52ZxY930_kCUpToQw0Qsv-OTtn/view?usp=sharing)|334.1 MB|PREN|
 <br>
 Place the EfficientNet model under the [efficientNet_training](https://github.com/RabbitCrab/MultiLingual-OCR/tree/main/efficientNet_training)
 
