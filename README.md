@@ -69,7 +69,7 @@ The public dataset from the competition provided can be download from [HERE](htt
 <font size = "3">
 
 <b>NOTE :exclamation:</b> <br>
-Please run the following code under the folder `yolov5`!
+Please run the following command under the folder `yolov5`!
 
 ```
 cd yolov5
