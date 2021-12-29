@@ -62,7 +62,6 @@ Unzip the `paddle.zip` file under PaddleOCR folder. <br>
 <br> `final_test.py` runs inference on a `path/` (directory) and output the result in `*.csv`. <br>
 The `final_test.py` is designed to run for the competition [繁體中文場景文字辨識競賽－高階賽：複雜街景之文字定位與辨識](https://tbrain.trendmicro.com.tw/Competitions/Details/19). <br>
 Line 287: you probably need to change the output file name. <br>
-The public dataset from the competition provided can be download from [HERE](https://drive.google.com/file/d/1E09fzyjJLAtciDi7fInn-CsJyhVevhUw/view?usp=sharing). <br><br>
 
  ---
 <div style="text-align: justify">
